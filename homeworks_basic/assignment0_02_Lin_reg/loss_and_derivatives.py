@@ -33,7 +33,7 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE    
-        return 
+        return np.mean(np.abs(X.dot(w) - Y))
 
     @staticmethod
     def l2_reg(w):
@@ -47,7 +47,7 @@ class LossAndDerivatives:
         """
         
         # YOUR CODE HERE
-        return 
+        return np.sum(w**2)
 
     @staticmethod
     def l1_reg(w):
@@ -61,14 +61,14 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE
-        return 
+        return np.sum(np.abs(w))
 
     @staticmethod
     def no_reg(w):
         """
         Simply ignores the regularization
         """
-        return 0.
+        return 0
     
     @staticmethod
     def mse_derivative(X, Y, w):
@@ -87,7 +87,11 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE
-        return 
+        target_dim = 1
+        if(w.ndim > 1):
+            target_dim = w.shape[1]
+        
+        return 2 * (X.T @ (X @ w - Y))/ target_dim / X.shape[0]
 
     @staticmethod
     def mae_derivative(X, Y, w):
@@ -106,7 +110,22 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE
-        return 
+
+        target_dim = 1
+        if(w.ndim > 1):
+            target_dim = w.shape[1]
+        """
+        if (w.ndim == 1):
+            Y = np.reshape(Y, (-1,1))
+            w = np.reshape(w, (-1,1))
+        else:
+            target_dim = w.shape[1]
+        mae_der = np.zeros_like(w) 
+        for i in range(w.shape[0]):
+            for k in range(target_dim):
+                mae_der[i,k] = np.sum(-np.sign(Y[:,k] - X @ w[:,k]) * X[:,i])"""
+        
+        return X.T @ np.sign(X @ w - Y) / X.shape[0] / target_dim
 
     @staticmethod
     def l2_reg_derivative(w):
@@ -119,8 +138,8 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE
-        return 
-
+        return 2*w
+        
     @staticmethod
     def l1_reg_derivative(w):
         """
@@ -133,7 +152,8 @@ class LossAndDerivatives:
         """
 
         # YOUR CODE HERE
-        return 
+        
+        return np.sign(w)
 
     @staticmethod
     def no_reg_derivative(w):
