@@ -108,6 +108,7 @@ class SVM(BaseEstimator, ClassifierMixin):
             # compute the margin values for every object in the batch
             return (K @ self.betas + self.bias).flatten()### YOUR CODE HERE
 
+
     def predict(self, batch):
         scores = self.predict_scores(batch)
         answers = np.full(len(batch), -1, dtype=np.int64)
