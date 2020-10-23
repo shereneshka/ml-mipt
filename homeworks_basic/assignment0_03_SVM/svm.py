@@ -18,9 +18,11 @@ def rbf(x_1, x_2, sigma=1.):
         torch.tensor of type torch.float32 shaped `(#samples_1, #samples_2)`
     '''
     distances = torch.zeros(x_1.shape[0], x_2.shape[0])
+    #for i in range(x_1.shape[0]):
+    #    for j in range(x_2.shape[0]):
+    #        distances[i,j] = torch.exp(-torch.sum((x_1[i,:] - x_2[j,:])**2) / (2 * sigma**2))### YOUR CODE HERE
     for i in range(x_1.shape[0]):
-        for j in range(x_2.shape[0]):
-            distances[i,j] = torch.exp(-torch.sum((x_1[i,:] - x_2[j,:])**2) / (2 * sigma**2))### YOUR CODE HERE
+        distances[i, :] = torch.exp(-torch.sum((x_1[i] - x_2[:])**2 / (2 * sigma**2), axis=1))
     return torch.Tensor(distances).type(torch.float32)
 
 def hinge_loss(scores, labels):
